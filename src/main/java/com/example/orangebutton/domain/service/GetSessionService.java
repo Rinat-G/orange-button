@@ -1,4 +1,4 @@
-package com.example.orangebutton.service;
+package com.example.orangebutton.domain.service;
 
 import com.example.orangebutton.dao.SessionDao;
 import com.example.orangebutton.dao.UserDao;

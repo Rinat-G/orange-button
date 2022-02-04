@@ -1,4 +1,4 @@
-package com.example.orangebutton.controller;
+package com.example.orangebutton.web.controller;
 
 import com.example.orangebutton.model.AuthRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+//todo: get rid
 @RestController
 @RequestMapping("/auth")
 public class GoogleSingInAuthController {

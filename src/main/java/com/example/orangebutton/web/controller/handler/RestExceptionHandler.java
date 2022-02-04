@@ -1,5 +1,6 @@
-package com.example.orangebutton.controller.error;
+package com.example.orangebutton.web.controller.handler;
 
+import com.example.orangebutton.exception.AuthenticationException;
 import com.example.orangebutton.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,5 +16,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFound(UserNotFoundException exception, WebRequest request) {
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<Object> handleAuthException(AuthenticationException exception, WebRequest request) {
+        return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
 }

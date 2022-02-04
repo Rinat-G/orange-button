@@ -1,4 +1,4 @@
-package com.example.orangebutton.service;
+package com.example.orangebutton.domain.service;
 
 import com.example.orangebutton.exception.AuthenticationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
+import static java.lang.String.format;
 
 @Service
 public class AuthService {
@@ -30,6 +32,8 @@ public class AuthService {
             idToken = verifier.verify(token);
         } catch (GeneralSecurityException | IOException e) {
             throw new AuthenticationException(e);
+        } catch (IllegalArgumentException e) {
+            throw new AuthenticationException(format("Wrong token: %s\nCause: %s", token, e.getMessage()));
         }
 
         if (idToken != null) {
