@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +32,10 @@ public class S3Walker implements Runnable, ApplicationListener<ContextRefreshedE
     public S3Walker(@Value("${tmp.dir}") String tempDir, S3Uploader s3Uploader) {
         this.tempDir = tempDir;
         this.s3Uploader = s3Uploader;
+        var dir = new File(tempDir);
+        if(!dir.exists() && !dir.mkdirs()){
+            throw new RuntimeException("Can't create temp dir");
+        }
     }
 
 

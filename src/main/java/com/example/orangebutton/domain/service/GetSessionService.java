@@ -32,8 +32,9 @@ public class GetSessionService {
             return currentSession;
         }
 
-        var newSession = UUID.randomUUID().toString();
+        var newSession = UUID.randomUUID();
+//        var newSession = UUID.randomUUID().toString();
         sessionDao.createNewSession(newSession, user.getUserId(), NEW_SESSION_DEFAULT_STATUS);
-        return newSession;
+        return newSession.toString();
     }
 }

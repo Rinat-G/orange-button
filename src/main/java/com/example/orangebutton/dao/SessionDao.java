@@ -3,6 +3,8 @@ package com.example.orangebutton.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class SessionDao {
 
@@ -54,7 +56,7 @@ public class SessionDao {
 
     }
 
-    public void createNewSession(String sessionId, long userId, String status) {
+    public void createNewSession(UUID sessionId, long userId, String status) {
         jdbcTemplate.update(INSERT_NEW_SESSION, sessionId, userId, status);
     }
 }
