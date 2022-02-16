@@ -8,4 +8,5 @@ import lombok.Data;
 public class UserDto {
     private long userId;
     private String userEmail;
+    private String pinHash;
 }
