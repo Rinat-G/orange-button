@@ -28,6 +28,12 @@ public class SessionDao {
             "INSERT INTO orange_button.ob_session\n" +
             "VALUES (?, ?, ?)";
 
+    //language=PostgreSQL
+    private static final String CLOSE_SESSION = "" +
+            "UPDATE orange_button.ob_session\n" +
+            "SET status = 'closed'\n" +
+            "WHERE id = ?";
+
     private final JdbcTemplate jdbcTemplate;
 
     public SessionDao(JdbcTemplate jdbcTemplate) {
@@ -58,5 +64,9 @@ public class SessionDao {
 
     public void createNewSession(UUID sessionId, long userId, String status) {
         jdbcTemplate.update(INSERT_NEW_SESSION, sessionId, userId, status);
+    }
+
+    public void closeSession(UUID sessionId) {
+        jdbcTemplate.update(CLOSE_SESSION, sessionId);
     }
 }

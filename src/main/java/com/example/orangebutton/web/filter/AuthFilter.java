@@ -3,8 +3,6 @@ package com.example.orangebutton.web.filter;
 
 import com.example.orangebutton.domain.service.AuthService;
 import com.example.orangebutton.exception.AuthenticationException;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +10,8 @@ import java.io.IOException;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-@Component
-@Order(1)
+//@Component
+//@Order(1)
 public class AuthFilter implements Filter {
 
     public static final String TOKEN_PARAM_NAME = "token";

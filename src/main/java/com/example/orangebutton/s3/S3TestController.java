@@ -1,29 +1,32 @@
 package com.example.orangebutton.s3;
 
-import com.example.orangebutton.rtsp.RTSPServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 public class S3TestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(S3TestController.class);
+    private final S3Client s3Client;
 
+    public S3TestController(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
 
     @GetMapping("/s3test")
     public String s3Test() {
@@ -44,7 +47,7 @@ public class S3TestController {
     }
 
     @GetMapping("/s3PresignedUrlTest")
-    public String s3PresignTest(){
+    public String s3PresignTest() {
 
         S3Presigner presigner = S3Presigner.builder().endpointOverride(URI.create("https://storage.yandexcloud.net"))
                 .build();
@@ -55,7 +58,7 @@ public class S3TestController {
                         .key("folder/test-video.ts")
                         .build();
 
-        GetObjectPresignRequest getObjectPresignRequest =  GetObjectPresignRequest.builder()
+        GetObjectPresignRequest getObjectPresignRequest = GetObjectPresignRequest.builder()
                 .signatureDuration(Duration.ofMinutes(10))
                 .getObjectRequest(getObjectRequest)
                 .build();
@@ -66,5 +69,15 @@ public class S3TestController {
 
         return presignedGetObjectRequest.url().toString();
 
+    }
+
+    @GetMapping("/s3List")
+    public List<String> getList() {
+        ListObjectsV2Request req = ListObjectsV2Request.builder().bucket("orange-button").prefix("7f00449e-2a16-4a00-a0ff-3950fdef05b8").build();
+        ListObjectsV2Response response;
+
+        response = s3Client.listObjectsV2(req);
+
+        return response.contents().stream().map(S3Object::key).collect(toList());
     }
 }

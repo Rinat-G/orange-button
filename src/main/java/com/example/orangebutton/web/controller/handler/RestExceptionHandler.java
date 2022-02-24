@@ -1,6 +1,7 @@
 package com.example.orangebutton.web.controller.handler;
 
 import com.example.orangebutton.exception.AuthenticationException;
+import com.example.orangebutton.exception.PinCodeMismatchException;
 import com.example.orangebutton.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,5 +22,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     protected ResponseEntity<Object> handleAuthException(AuthenticationException exception, WebRequest request) {
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    }
+
+    @ExceptionHandler(PinCodeMismatchException.class)
+    protected ResponseEntity<Object> handlePinCodeMismatchException(PinCodeMismatchException exception, WebRequest request) {
+        return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 }
